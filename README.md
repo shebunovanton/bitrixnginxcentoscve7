@@ -15,9 +15,9 @@
 ### Шаг 1. Подготовка окружения и установка инструментов
 
 Установите базовые пакеты для компиляции и Git:
-
-
+```
 yum install -y git gcc gcc-c++ make wget tar gzip perl-ExtUtils-Embed
+```
 Шаг 2. Создание рабочей директории
 
 mkdir -p ~/nginx_build && cd ~/nginx_build
