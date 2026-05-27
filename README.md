@@ -19,45 +19,53 @@
 yum install -y git gcc gcc-c++ make wget tar gzip perl-ExtUtils-Embed
 ```
 Шаг 2. Создание рабочей директории
-
+```
 mkdir -p ~/nginx_build && cd ~/nginx_build
+```
 Шаг 3. Установка зависимостей
 Установите системные библиотеки, включая Brotli для сжатия:
-
+```
 yum install -y openssl-devel pcre-devel zlib-devel brotli brotli-devel
+```
 Для CentOS 7: Если пакеты brotli и brotli-devel не найдены, подключите EPEL репозиторий:
-
+```
 yum install -y epel-release
 yum install -y brotli brotli-devel
+```
 Шаг 4. Загрузка исходного кода NGINX 1.30.2
-
+```
 cd ~/nginx_build
 wget https://nginx.org/download/nginx-1.30.2.tar.gz
 tar -xzf nginx-1.30.2.tar.gz
+```
 Шаг 5. Клонирование внешних модулей
 Эти модули необходимы для полной совместимости с BitrixVM:
-
-
+```
 cd ~/nginx_build
-
+```
 # 1. push-stream-module (для веб-сокетов и стриминга)
+```
 git clone https://github.com/wandenberg/nginx-push-stream-module.git
-
+```
 # 2. headers-more (для управления заголовками)
+```
 git clone https://github.com/openresty/headers-more-nginx-module.git
-
+```
 # 3. mod_zip (для динамической архивации)
+```
 git clone https://github.com/evanmiller/mod_zip.git
-
+```
 # 4. ngx_brotli (сжатие Brotli)
+```
 git clone https://github.com/google/ngx_brotli.git
 cd ngx_brotli && git submodule update --init && cd ..
+```
 Примечание: Модули mod_zip и push-stream могут давно не обновляться, но они критичны для работы некоторых функций Bitrix. Если клонирование не удаётся, проверьте наличие форков или временно отключите соответствующий --add-module.
 
 Шаг 6. Конфигурация сборки
 Перейдите в директорию исходников и запустите configure с параметрами, приближенными к родным для BitrixVM:
 
-
+```
 cd ~/nginx_build/nginx-1.30.2
 
 ./configure \
@@ -96,35 +104,44 @@ cd ~/nginx_build/nginx-1.30.2
     --add-module=../headers-more-nginx-module \
     --add-module=../ngx_brotli \
     --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic'
+```
 Шаг 7. Компиляция и установка
 Если configure прошёл без ошибок, запустите сборку и установку:
-
+```
 make && make install
+```
 Процесс может занять 5-10 минут в зависимости от мощности ВМ.
 
 Шаг 8. Проверка конфигурации и версии
-
+```
 /usr/sbin/nginx -t
 /usr/sbin/nginx -v
+```
 Вы должны увидеть:
-
+```
 nginx version: nginx/1.30.2
 
 syntax is ok
-
+```
 Шаг 9. Перезапуск NGINX и очистка
-
+```
 systemctl restart nginx
+```
 # или service nginx restart (на старых версиях BitrixVM)
 
 # Проверьте, что сервер работает
+```
 systemctl status nginx
-
+```
 # Удалите временную папку сборки (опционально)
+```
 rm -rf ~/nginx_build
+```
 Шаг 10. Проверка загруженных модулей
 Убедитесь, что все модули активны:
+```
 /usr/sbin/nginx -V 2>&1 | grep --color 'modules'
+```
 В выводе должны быть видны пути к ngx_brotli, push_stream_module и другим модулям.
 
 🔄 Устранение ошибок при configure
@@ -145,7 +162,10 @@ libbrotlicommon.so.1() not found	Установите EPEL и brotli-devel, ли
 
 
 # Проверьте версию (должна быть 1.30.2 или выше)
+```
 nginx -v
-
+```
 # Проверьте конфигурацию на наличие опасных паттернов
+```
 grep -RInE 'rewrite.*\$[0-9].*\?|set .*\$[0-9]' /etc/nginx
+```
