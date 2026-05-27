@@ -127,7 +127,7 @@ syntax is ok
 ```
 systemctl restart nginx
 ```
-# или service nginx restart (на старых версиях BitrixVM)
+
 
 # Проверьте, что сервер работает
 ```
