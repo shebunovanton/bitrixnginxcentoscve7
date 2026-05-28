@@ -165,7 +165,4 @@ libbrotlicommon.so.1() not found	Установите EPEL и brotli-devel, ли
 ```
 nginx -v
 ```
-# Проверьте конфигурацию на наличие опасных паттернов
-```
-grep -RInE 'rewrite.*\$[0-9].*\?|set .*\$[0-9]' /etc/nginx
-```
+
