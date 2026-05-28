@@ -165,7 +165,7 @@ libbrotlicommon.so.1() not found	Установите EPEL и brotli-devel, ли
 ```
 nginx -v
 ```
-# Сборка NGINX 1.30.2 для BitrixVM с дополнительными модулями , для тех кто решил скомпилировать с обновленой openssl
+# Сборка NGINX 1.30.2 для BitrixVM с дополнительными модулями , для тех кто решил скомпилировать с обновлённой openssl
 Устанавливаем пакеты 
 ```
 yum groupinstall 'Development Tools' -y
@@ -220,7 +220,7 @@ cd ~/nginx_build/nginx-1.30.2
     --add-module=../ngx_brotli \
     --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic'
 ```
-Компиляция и установка
+Компиляция и установка.
 Если configure прошёл без ошибок, запустите сборку и установку:
 ```
 make && make install
