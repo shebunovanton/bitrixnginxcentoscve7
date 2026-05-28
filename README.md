@@ -165,4 +165,83 @@ libbrotlicommon.so.1() not found	Установите EPEL и brotli-devel, ли
 ```
 nginx -v
 ```
+# Сборка NGINX 1.30.2 для BitrixVM с дополнительными модулями , для тех кто решил скомпилировать с обновленой openssl
+Устанавливаем пакеты 
+```
+yum groupinstall 'Development Tools' -y
+yum install perl-core zlib-devel wget pcre-devel -y
+```
+Скачиваем openssl
+```
+cd /usr/src
+wget https://www.openssl.org/source/openssl-3.0.8.tar.gz
+tar -zxf openssl-3.0.8.tar.gz
+cd openssl-3.0.8
+```
+Тут можно указать у ./configure параметр   --with-openssl=/usr/src/openssl-3.0.8 и nginx установиться с обновленной openssl
+```
+cd ~/nginx_build/nginx-1.30.2
 
+./configure \
+    --prefix=/etc/nginx \
+    --sbin-path=/usr/sbin/nginx \
+    --conf-path=/etc/nginx/nginx.conf \
+    --error-log-path=/var/log/nginx/error.log \
+    --http-log-path=/var/log/nginx/access.log \
+    --pid-path=/var/run/nginx.pid \
+    --lock-path=/var/run/nginx.lock \
+    --http-client-body-temp-path=/var/cache/nginx/client_temp \
+    --http-proxy-temp-path=/var/cache/nginx/proxy_temp \
+    --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
+    --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+    --http-scgi-temp-path=/var/cache/nginx/scgi_temp \
+    --user=nginx --group=nginx \
+    --with-openssl-opt=enable-tls1_3 \
+    --with-http_ssl_module \
+    --with-http_realip_module \
+    --with-http_addition_module \
+    --with-http_sub_module \
+    --with-http_dav_module \
+    --with-http_flv_module \
+    --with-http_mp4_module \
+    --with-http_gunzip_module \
+    --with-http_gzip_static_module \
+    --with-http_random_index_module \
+    --with-http_secure_link_module \
+    --with-http_stub_status_module \
+    --with-http_auth_request_module \
+    --with-http_v2_module \
+    --with-mail --with-mail_ssl_module \
+    --with-file-aio \
+    --add-module=../nginx-push-stream-module \
+    --add-module=../mod_zip \
+    --with-openssl=/usr/src/openssl-3.0.8 \
+    --add-module=../headers-more-nginx-module \
+    --add-module=../ngx_brotli \
+    --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic'
+```
+Компиляция и установка
+Если configure прошёл без ошибок, запустите сборку и установку:
+```
+make && make install
+```
+
+Для тех кто решил установить и в систему 
+```
+cd /usr/src/openssl-3.0.8
+./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
+make
+make test
+make install
+```
+Обновляем пути
+```
+echo "/usr/local/ssl/lib64" | sudo tee /etc/ld.so.conf.d/openssl.conf
+ldconfig -v
+echo "export PATH=/usr/local/ssl/bin:\$PATH" | sudo tee /etc/profile.d/openssl.sh
+source /etc/profile.d/openssl.sh
+```
+Проверяем 
+```
+openssl version
+```
