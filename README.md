@@ -251,7 +251,7 @@ openssl version
 nginx: [emerg] SSL_CTX_use_certificate("/etc/nginx/ssl/pool_manager.pem") failed (SSL: error:0A00018F:SSL routines::ee key too small)
 nginx: [emerg] SSL_CTX_use_certificate("/etc/nginx/ssl/cert.pem") failed (SSL: error:0A00018F:SSL routines::ee key too small) 
 
-``
+```
 Делаем новые сертификаты
 ```
 openssl req -x509 -newkey rsa:2048 -keyout /etc/nginx/ssl/cert_new.key -out /etc/nginx/ssl/cert_new.crt -days 3650 -nodes
