@@ -174,11 +174,11 @@ yum install perl-core zlib-devel wget pcre-devel -y
 Скачиваем openssl
 ```
 cd /usr/src
-wget https://www.openssl.org/source/openssl-3.0.8.tar.gz
-tar -zxf openssl-3.0.8.tar.gz
-cd openssl-3.0.8
+wget https://github.com/openssl/openssl/releases/download/openssl-3.5.6/openssl-3.5.6.tar.gz
+tar -zxf openssl-3.5.6.tar.gz
+cd openssl-3.5.6
 ```
-Тут можно указать у ./configure параметр   --with-openssl=/usr/src/openssl-3.0.8 и nginx установиться с обновленной openssl
+Тут можно указать у ./configure параметр   --with-openssl=/usr/src/openssl-3.5.6 и nginx установиться с обновленной openssl
 ```
 cd ~/nginx_build/nginx-1.30.2
 
@@ -215,7 +215,7 @@ cd ~/nginx_build/nginx-1.30.2
     --with-file-aio \
     --add-module=../nginx-push-stream-module \
     --add-module=../mod_zip \
-    --with-openssl=/usr/src/openssl-3.0.8 \
+    --with-openssl=/usr/src/openssl-3.5.6 \
     --add-module=../headers-more-nginx-module \
     --add-module=../ngx_brotli \
     --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic'
@@ -228,7 +228,7 @@ make && make install
 
 Для тех кто решил установить и в систему 
 ```
-cd /usr/src/openssl-3.0.8
+cd /usr/src/openssl-3.5.6
 ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
 make
 make test
