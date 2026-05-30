@@ -179,6 +179,60 @@ wget https://github.com/openssl/openssl/releases/download/openssl-3.5.6/openssl-
 tar -zxf openssl-3.5.6.tar.gz
 cd openssl-3.5.6
 ```
+### Шаг 1. Подготовка окружения и установка инструментов
+
+Установите базовые пакеты для компиляции и Git:
+```
+yum install -y git gcc gcc-c++ make wget tar gzip perl-ExtUtils-Embed
+```
+Шаг 2. Создание рабочей директории
+```
+mkdir -p ~/nginx_build && cd ~/nginx_build
+```
+Шаг 3. Установка зависимостей
+Установите системные библиотеки, включая Brotli для сжатия:
+```
+yum install -y openssl-devel pcre-devel zlib-devel brotli brotli-devel
+```
+Для CentOS 7: Если пакеты brotli и brotli-devel не найдены, подключите EPEL репозиторий:
+```
+yum install -y epel-release
+yum install -y brotli brotli-devel
+```
+Шаг 4. Загрузка исходного кода NGINX 1.30.2
+```
+cd ~/nginx_build
+wget https://nginx.org/download/nginx-1.30.2.tar.gz
+tar -xzf nginx-1.30.2.tar.gz
+```
+Шаг 5. Клонирование внешних модулей
+Эти модули необходимы для полной совместимости с BitrixVM:
+```
+cd ~/nginx_build
+```
+# 1. push-stream-module (для веб-сокетов и стриминга)
+```
+git clone https://github.com/wandenberg/nginx-push-stream-module.git
+```
+# 2. headers-more (для управления заголовками)
+```
+git clone https://github.com/openresty/headers-more-nginx-module.git
+```
+# 3. mod_zip (для динамической архивации)
+```
+git clone https://github.com/evanmiller/mod_zip.git
+```
+# 4. ngx_brotli (сжатие Brotli)
+```
+git clone https://github.com/google/ngx_brotli.git
+cd ngx_brotli && git submodule update --init && cd ..
+```
+Примечание: Модули mod_zip и push-stream могут давно не обновляться, но они критичны для работы некоторых функций Bitrix. Если клонирование не удаётся, проверьте наличие форков или временно отключите соответствующий --add-module.
+
+Шаг 6. Конфигурация сборки
+Перейдите в директорию исходников и запустите configure с параметрами, приближенными к родным для BitrixVM:
+
+
 Тут можно указать у ./configure параметр   --with-openssl=/usr/src/openssl-3.5.6 и nginx установиться с обновленной openssl
 ```
 cd ~/nginx_build/nginx-1.30.2
