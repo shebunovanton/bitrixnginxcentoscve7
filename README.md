@@ -281,14 +281,7 @@ cd ~/nginx_build/nginx-1.30.2
 make && make install
 ```
 
-Для тех кто решил установить и в систему (лучше тогда мигрировать на centos9😊)
-```
-cd /usr/src/openssl-3.5.6
-./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
-make
-make test
-make install
-```
+
 Обновляем пути
 ```
 echo "/usr/local/ssl/lib64" | sudo tee /etc/ld.so.conf.d/openssl.conf
@@ -319,4 +312,13 @@ openssl req -x509 -newkey rsa:2048 -keyout /etc/nginx/ssl/pool_manager_new.key -
 
 cat /etc/nginx/ssl/pool_manager_new.crt  > /etc/nginx/ssl/pool_manager.pem
 cat /etc/nginx/ssl/pool_manager_new.key >> /etc/nginx/ssl/pool_manager.pem
+```
+
+Для тех кто решил установить и в систему (лучше тогда мигрировать на centos9😊)
+```
+cd /usr/src/openssl-3.5.6
+./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
+make
+make test
+make install
 ```
