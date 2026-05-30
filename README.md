@@ -311,7 +311,7 @@ nginx: [emerg] SSL_CTX_use_certificate("/etc/nginx/ssl/cert.pem") failed (SSL: e
 ```
 openssl req -x509 -newkey rsa:2048 -keyout /etc/nginx/ssl/cert_new.key -out /etc/nginx/ssl/cert_new.crt -days 3656660 -nodes
 
-cat /etc/nginx/ssl/cert_new_new.crt /etc/nginx/ssl/cert_new.key > /etc/nginx/ssl/cert.pem
+cat /etc/nginx/ssl/cert_new.crt /etc/nginx/ssl/cert_new.key > /etc/nginx/ssl/cert.pem
 cat  /etc/nginx/ssl/cert_new.key >> /etc/nginx/ssl/cert.pem
 ```
 ```
