@@ -281,7 +281,7 @@ cd ~/nginx_build/nginx-1.30.2
 make && make install
 ```
 
-Для тех кто решил установить и в систему 
+Для тех кто решил установить и в систему (лучше тогда мигрировать на centos9😊)
 ```
 cd /usr/src/openssl-3.5.6
 ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
