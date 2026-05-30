@@ -314,7 +314,7 @@ cat /etc/nginx/ssl/pool_manager_new.crt  > /etc/nginx/ssl/pool_manager.pem
 cat /etc/nginx/ssl/pool_manager_new.key >> /etc/nginx/ssl/pool_manager.pem
 ```
 
-Для тех кто решил установить и в систему (лучше тогда мигрировать на centos9😊)
+Для тех кто решил установить и в систему openssl 3.5.6(лучше тогда мигрировать на centos9😊)
 ```
 cd /usr/src/openssl-3.5.6
 ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
