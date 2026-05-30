@@ -321,4 +321,10 @@ cd /usr/src/openssl-3.5.6
 make
 make test
 make install
+echo "/usr/local/ssl/lib64" | sudo tee /etc/ld.so.conf.d/openssl3.conf
+sudo ldconfig
+
+echo 'export PATH="/usr/local/ssl/bin:${PATH}"' | sudo tee /etc/profile.d/openssl3.sh
+source /etc/profile.d/openssl3.sh
+openssl version
 ```
