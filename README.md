@@ -282,17 +282,7 @@ make && make install
 ```
 
 
-Обновляем пути
-```
-echo "/usr/local/ssl/lib64" | sudo tee /etc/ld.so.conf.d/openssl.conf
-ldconfig -v
-echo "export PATH=/usr/local/ssl/bin:\$PATH" | sudo tee /etc/profile.d/openssl.sh
-source /etc/profile.d/openssl.sh
-```
-Проверяем 
-```
-openssl version
-```
+
 Если ошибки
 ```
 
