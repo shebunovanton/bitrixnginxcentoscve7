@@ -302,7 +302,23 @@ openssl req -x509 -newkey rsa:2048 -keyout /etc/nginx/ssl/pool_manager_new.key -
 
 cat /etc/nginx/ssl/pool_manager_new.crt  > /etc/nginx/ssl/pool_manager.pem
 cat /etc/nginx/ssl/pool_manager_new.key >> /etc/nginx/ssl/pool_manager.pem
+``` 
+Предупреждение nginx: [warn] the "listen ... http2" directive is deprecated, use the "http2" directive instead in /etc/nginx/bx/site_enabled/ssl.s1.conf:3
 ```
+vi /etc/nginx/bx/site_enabled/ssl.s1.conf
+Добавляем
+http2 on;
+И заменяем
+listen      443 default_server http2   ssl;
+на 
+listen      443 default_server    ssl;
+```
+Проверяем
+```
+nginx -t
+```
+
+
 
 Для тех кто решил установить и в систему openssl 3.5.6(лучше тогда мигрировать на centos9😊)
 ```
